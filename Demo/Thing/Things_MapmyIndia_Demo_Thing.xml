@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities build="b71" majorVersion="7" minorVersion="2" modelPersistenceProviderPackage="H2PersistenceProviderPackage" revision="1" schemaVersion="920"><Things><Thing description="" documentationContent="&lt;p&gt;&lt;br&gt;&lt;/p&gt;&#10;" effectiveThingPackage="ConfiguredThing" enabled="true" homeMashup="" identifier="" lastModifiedDate="2018-11-15T12:37:42.992+05:30" name="MapmyIndia_Demo_Thing" projectName="" published="false" tags="" thingTemplate="GenericThing" valueStream=""><Owner name="Administrator" type="User"/><avatar/><DesignTimePermissions><Create/><Read/><Update/><Delete/><Metadata/></DesignTimePermissions><RunTimePermissions/><VisibilityPermissions><Visibility/></VisibilityPermissions><ConfigurationTables/><ThingShape><PropertyDefinitions/><ServiceDefinitions><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="MapmyIndiaCreateCircleService"><ResultType aspect.dataShape="MapmyIndiaCreateCircle_Shape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="MapmyIndiaCreatePolygonService"><ResultType aspect.dataShape="MapmyIndiaCreatePolygon_Shape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="MapmyIndiaDrawPlannedRouteService"><ResultType aspect.dataShape="MapmyIndiaPlotMarker_Shape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="MapmyIndiaDrawRouteService"><ResultType aspect.dataShape="MapmyIndiaPlotMarker_Shape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="MapmyIndiaNotificationService"><ResultType aspect.dataShape="MapmyIndiaNotification_Shape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="MapmyIndiaPlotMarkerService"><ResultType aspect.dataShape="MapmyIndiaPlotMarker_Shape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="MapmyIndiaToolTipService"><ResultType aspect.dataShape="MapmyIndiaToolTip_Shape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="ShowSelectedLocationService"><ResultType baseType="STRING" description="" name="result" ordinal="0"/><ParameterDefinitions><FieldDefinition aspect.isRequired="true" baseType="LOCATION" description="" name="location" ordinal="1"/></ParameterDefinitions></ServiceDefinition></ServiceDefinitions><EventDefinitions/><ServiceMappings/><ServiceImplementations><ServiceImplementation description="" handlerName="Script" name="MapmyIndiaCreateCircleService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaCreateCircle_Shape"
+};
+
+
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+var circle_1 = new Object();
+var location = new Object();
+location.latitude = 28.33;
+location.longitude = 77.33;
+circle_1.location = location;
+circle_1.radius = 10000; //10 KM
+result.AddRow(circle_1);
+
+var circle_2 = new Object();
+var location = new Object();
+location.latitude = 28.83;
+location.longitude = 77.83;
+circle_2.location = location;
+circle_2.radius = 5000; //5 KM
+result.AddRow(circle_2);
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="MapmyIndiaCreatePolygonService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[
+
+var params_ = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaPlotMarker_Shape"
+};
+
+var result_ = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params_);
+var latlnsArr_ = [[28.78451090740781,76.69006347656251],[28.560400880492832,76.70928955078126],[28.665286207625755,77.01690673828126],[28.773677918788586,76.94686889648439]];
+for(var l in latlnsArr_) {
+	var latlng = latlnsArr_[l];
+    var location = new Object();
+	location.latitude = latlng[0];
+	location.longitude = latlng[1];
+	location.elevation = 0;
+	location.units = "WGS84";
+	var obj = new Object();
+	obj.locationSequence = (l + 1);
+	obj.location = location;
+	result_.AddRow(obj);
+}
+
+var result_1 = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params_);
+var latlnsArr_1 = [[28.835049972635176,76.25061035156251],[28.86512110454975,76.53900146484376],
+                   [28.5941685062326,76.54174804687501],[28.430052892335723,76.37145996093751]];
+for(var l in latlnsArr_1) {
+	var latlng = latlnsArr_1[l];
+    var location = new Object();
+	location.latitude = latlng[0];
+	location.longitude = latlng[1];
+	location.elevation = 0;
+	location.units = "WGS84";
+	var obj = new Object();
+	obj.locationSequence = (l + 1);
+	obj.location = location;
+	result_1.AddRow(obj);
+}
+
+
+var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaCreatePolygon_Shape"
+};
+
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+var gObj = new Object();
+var c_location = new Object();
+c_location.latitude = 28.674925574564284;
+c_location.longitude = 77.13775634765626;
+c_location.elevation = 0;
+c_location.units = "WGS84";
+gObj.centerLocation = c_location;
+gObj.locations = result_;
+result.AddRow(gObj);
+
+var gObj1 = new Object();
+var c_location1 = new Object();
+c_location1.latitude = 28.437298668550063;
+c_location1.longitude = 77.10205078125001;
+c_location1.elevation = 0;
+c_location1.units = "WGS84";
+gObj1.centerLocation = c_location1;
+gObj1.locations = result_1;
+result.AddRow(gObj1);
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="MapmyIndiaDrawPlannedRouteService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaPlotMarker_Shape"
+};
+
+
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+
+
+// location:LOCATION
+var location = new Object();
+location.latitude = 28.672515815965216;
+location.longitude = 77.26816534996;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 1;
+obj.location = location;
+result.AddRow(obj);
+
+var location = new Object();
+location.latitude = 28.526591795143;
+location.longitude = 77.228296995163;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 2;
+obj.location = location;
+result.AddRow(obj);
+
+
+var location = new Object();
+location.latitude = 28.616105997219;
+location.longitude = 77.136447429657;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 3;
+obj.location = location;
+result.AddRow(obj);
+
+
+var location = new Object();
+location.latitude = 28.795848;
+location.longitude = 77.028758;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 4;
+obj.location = location;
+result.AddRow(obj);
+
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="MapmyIndiaDrawRouteService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaPlotMarker_Shape"
+};
+
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+// location:LOCATION
+var location = new Object();
+location.latitude = 28.698417815639452;
+location.longitude = 77.34786987304689;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 1;
+obj.location = location;
+result.AddRow(obj);
+
+var location = new Object();
+location.latitude = 28.866591795143;
+location.longitude = 77.228296995163;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 3;
+obj.location = location;
+result.AddRow(obj);
+
+var location = new Object();
+location.latitude = 28.816105997219;
+location.longitude = 77.136447429657;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 2;
+obj.location = location;
+result.AddRow(obj);
+
+
+
+var location = new Object();
+location.latitude = 28.895415695592;
+location.longitude = 77.155319452286;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 4;
+obj.location = location;
+result.AddRow(obj);
+
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="MapmyIndiaNotificationService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaNotification_Shape"
+};
+
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+var notify1 = new Object();
+notify1.notifyText = "This is success notification";
+notify1.notifyType = "success"; // success/error/alert
+result.AddRow(notify1);
+
+var notify2 = new Object();
+notify2.notifyText = "This is error notification";
+notify2.notifyType = "error"; // success/error/alert
+result.AddRow(notify2);
+
+var notify3 = new Object();
+notify3.notifyText = "This is normal notification";
+notify3.notifyType = "alert"; // success/error/alert
+result.AddRow(notify3);]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="MapmyIndiaPlotMarkerService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaPlotMarker_Shape"
+};
+
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+// location:LOCATION
+var location = new Object();
+location.latitude = 28.549393910925;
+location.longitude = 77.26816534996;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 1;
+obj.location = location;
+result.AddRow(obj);
+
+var location = new Object();
+location.latitude = 28.566591795143;
+location.longitude = 77.228296995163;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 3;
+obj.location = location;
+result.AddRow(obj);
+
+var location = new Object();
+location.latitude = 28.616105997219;
+location.longitude = 77.136447429657;
+location.elevation = 0;
+location.units = "WGS84";
+var obj = new Object();
+obj.locationSequence = 2;
+obj.location = location;
+result.AddRow(obj);
+
+
+
+
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="MapmyIndiaToolTipService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "MapmyIndiaToolTip_Shape"
+};
+
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+var location = new Object();
+location.latitude = 28.54954234304025;
+location.longitude = 77.26781666278839;
+location.elevation = 0;
+location.units = "WGS84";
+
+var obj = new Object();
+obj.tooltiptext = 'MapmyIndia Head Office.';
+obj.location = location;
+obj.tooltipimage = 'http://www.mapmyindia.com/api/img/advanced-map-api.png';
+result.AddRow(obj);
+
+var location1 = new Object();
+location1.latitude = 28.54955883548453;
+location1.longitude = 77.26798832416536;
+location1.elevation = 0;
+location1.units = "WGS84";
+
+var obj1 = new Object();
+obj1.tooltiptext = 'Entrance Gate : MapmyIndia Head Office.';
+obj1.location = location1;
+obj1.tooltipimage = '';
+result.AddRow(obj1); 
+
+
+var location2 = new Object();
+location2.latitude = 28.595006905858;
+location2.longitude = 77.165876626968;
+location2.elevation = 0;
+location2.units = "WGS84";
+
+var obj2 = new Object();
+obj2.tooltiptext = 'Tooltip1';
+obj2.location = location2;
+obj2.tooltipimage = '';
+result.AddRow(obj2); 
+
+var location3 = new Object();
+location3.latitude = 28.681156802689;
+location3.longitude = 77.143335342407;
+location3.elevation = 0;
+location3.units = "WGS84";
+
+var obj3 = new Object();
+obj3.tooltiptext = 'Tooltip2';
+obj3.location = location3;
+obj3.tooltipimage = '';
+result.AddRow(obj3); 
+
+var location4 = new Object();
+location4.latitude = 28.693891075014;
+location4.longitude = 77.151263952255;
+location4.elevation = 0;
+location4.units = "WGS84";
+
+var obj4 = new Object();
+obj4.tooltiptext = 'Tooltip3';
+obj4.location = location4;
+obj4.tooltipimage = '';
+result.AddRow(obj4); 
+
+var location5 = new Object();
+location5.latitude = 28.62693647369;
+location5.longitude = 77.272886037827;
+location5.elevation = 0;
+location5.units = "WGS84";
+
+var obj5 = new Object();
+obj5.tooltiptext = 'P4';
+obj5.location = location5;
+obj5.tooltipimage = '';
+result.AddRow(obj5); 
+
+
+var location6 = new Object();
+location6.latitude = 28.660569749005;
+location6.longitude = 77.24172949791;
+location6.elevation = 0;
+location6.units = "WGS84";
+
+var obj6 = new Object();
+obj6.tooltiptext = 'P5';
+obj6.location = location6;
+obj6.tooltipimage = '';
+result.AddRow(obj5); 
+
+var location7 = new Object();
+location7.latitude = 27.976618199787;
+location7.longitude = 77.009739875793;
+location7.elevation = 0;
+location7.units = "WGS84";
+
+var obj7 = new Object();
+obj7.tooltiptext = 'P6';
+obj7.location = location7;
+obj7.tooltipimage = '';
+result.AddRow(obj7); 
+
+
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="ShowSelectedLocationService"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[result = "Selected location : latitude=" + location.latitude + ", longitude=" + location.longitude;]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation></ServiceImplementations><Subscriptions/></ThingShape><PropertyBindings/><RemotePropertyBindings/><RemoteServiceBindings/><RemoteEventBindings/><AlertConfigurations/><ImplementedShapes/><ThingProperties/><ConfigurationChanges><ConfigurationChange changeAction="CREATE" changeReason="header : name : updated, thingTemplate : updated&#10;documentation : updated&#10;" timestamp="2018-11-09T18:16:44.655+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-09T18:18:23.674+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-09T18:20:42.364+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="documentation : updated&#10;services : MapmyIndiaCreateCircleService : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-11-10T12:34:24.448+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaPlotMarkerService : Code Updated, Output Updated, Service Added&#10;" timestamp="2018-11-10T12:42:01.703+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaPlotMarkerService : Output Updated&#10;" timestamp="2018-11-10T12:44:35.261+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services :  : Code Updated, MapmyIndiaCreatePolygonService : Output Updated, Service Added&#10;" timestamp="2018-11-10T12:56:56.308+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services :  : Code Updated, MapmyIndiaNotificationService : Output Updated, Service Added&#10;" timestamp="2018-11-10T13:01:34.205+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-11-10T13:05:50.085+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-11-10T13:08:37.575+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T13:08:52.445+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaGetLocationService : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-11-10T14:09:34.438+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T14:17:18.142+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T14:20:44.005+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services :  : Code Updated, MapmyIndiaToolTipService : Output Updated, Service Added&#10;" timestamp="2018-11-10T14:22:45.572+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateGeofenceService : Service Added&#10;" timestamp="2018-11-10T14:49:24.513+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateGeofenceService : removed, PointInGeofenceService : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-11-10T14:52:42.496+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : PointInGeofenceService : Output Updated&#10;" timestamp="2018-11-10T14:53:56.740+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T14:55:05.617+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T16:32:56.726+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T16:53:14.145+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaToolTipService : Code Updated&#10;" timestamp="2018-11-10T17:43:48.683+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T17:43:57.514+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T17:46:10.874+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T17:49:18.731+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:06:17.786+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:06:32.050+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:07:32.211+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:11:18.452+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:11:30.634+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:11:45.852+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:24:05.781+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T18:31:00.383+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-10T19:06:23.842+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : ShowSelectedLocationService : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-11-12T14:13:10.001+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T14:13:16.511+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T14:14:55.891+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T14:19:02.426+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : ShowSelectedLocationService : Input parameter Location Added, Inputs updated, Input parameter Location Updated, Input parameter location Added, Input parameter location Updated&#10;" timestamp="2018-11-12T14:21:53.040+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T15:24:09.645+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated&#10;" timestamp="2018-11-12T15:27:11.169+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Code Updated&#10;" timestamp="2018-11-12T15:27:25.356+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T15:27:32.154+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T15:28:15.824+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T15:28:28.123+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated, Code Updated&#10;" timestamp="2018-11-12T15:30:59.442+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T15:31:37.482+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-12T15:31:43.299+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated&#10;" timestamp="2018-11-13T11:24:13.421+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated&#10;" timestamp="2018-11-13T11:29:55.539+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:29:59.116+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:30:10.916+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:30:23.880+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:33:49.461+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaPlotMarkerService : Output Updated&#10;" timestamp="2018-11-13T11:36:18.638+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Output Updated&#10;" timestamp="2018-11-13T11:37:28.105+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Output Updated&#10;" timestamp="2018-11-13T11:37:37.784+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Output Updated&#10;" timestamp="2018-11-13T11:37:46.632+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:37:56.015+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaNotificationService : Output Updated&#10;" timestamp="2018-11-13T11:38:12.612+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:38:23.194+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaToolTipService : Output Updated&#10;" timestamp="2018-11-13T11:38:31.360+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : PointInGeofenceService : Output Updated&#10;" timestamp="2018-11-13T11:38:43.480+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : PointInGeofenceService : removed&#10;" timestamp="2018-11-13T11:38:58.660+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:39:04.654+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:39:11.412+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:39:26.610+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:42:17.225+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:44:16.084+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:45:02.664+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:45:48.057+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated&#10;" timestamp="2018-11-13T11:47:29.694+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Code Updated&#10;" timestamp="2018-11-13T11:47:54.385+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Code Updated&#10;" timestamp="2018-11-13T11:48:26.720+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated&#10;" timestamp="2018-11-13T11:51:20.635+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated&#10;" timestamp="2018-11-13T11:52:10.237+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:54:12.814+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:54:40.153+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:55:37.254+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T11:56:25.349+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-13T11:59:30.588+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:06:08.961+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:10:54.698+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:11:11.403+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:14:33.983+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:22:04.556+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:22:20.865+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-13T12:22:55.725+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:23:04.326+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:23:22.379+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Output Updated&#10;" timestamp="2018-11-13T12:24:47.543+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:25:27.302+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:26:48.826+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:28:27.516+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:32:27.306+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:32:50.102+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Output Updated&#10;" timestamp="2018-11-13T12:34:01.008+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:35:03.942+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Output Updated&#10;" timestamp="2018-11-13T12:35:57.987+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:36:10.137+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:37:34.128+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:40:18.296+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaNotificationService : Output Updated&#10;" timestamp="2018-11-13T12:41:25.118+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:41:27.063+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:44:20.757+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:44:56.829+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T12:44:57.858+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T15:44:05.592+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : ShowSelectedLocationService : removed&#10;" timestamp="2018-11-13T15:44:58.183+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services :  : Input parameter location Added, ShowSelectedLocationService : Inputs updated, Code Updated, Output Updated, Service Added&#10;" timestamp="2018-11-13T15:58:24.943+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : GetLocationService : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-11-13T16:39:33.770+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T16:39:41.489+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T16:59:02.858+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-13T17:52:14.707+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-13T17:53:04.269+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T17:53:23.794+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-13T18:42:10.832+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-13T18:43:43.991+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T18:43:46.170+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-13T18:43:59.991+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T18:44:02.132+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-13T18:44:40.547+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T18:44:42.301+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-13T18:45:36.925+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T18:45:39.016+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaPlotMarkerService : Code Updated&#10;" timestamp="2018-11-13T18:48:17.711+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T18:48:42.664+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaPlotMarkerService : Code Updated&#10;" timestamp="2018-11-13T18:50:00.776+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-13T18:50:41.158+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T10:13:17.684+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T10:27:11.378+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T10:27:13.650+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T10:30:10.455+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T10:30:18.228+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T10:30:33.536+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T10:37:17.364+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T10:37:19.877+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T11:45:03.425+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T11:45:07.087+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T11:45:13.065+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:27:28.786+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:27:32.513+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:29:09.237+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:29:11.582+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:30:03.849+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:30:06.032+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:31:20.498+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:31:23.780+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:39:27.447+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:41:28.989+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:41:32.732+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:42:15.889+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:43:38.863+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:43:43.144+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:44:09.217+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:44:17.563+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:46:49.311+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:46:51.654+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:50:45.124+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:50:47.626+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:52:28.614+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:52:30.956+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:54:45.063+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:55:10.577+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:55:12.835+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T12:57:19.381+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:57:22.064+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T12:59:32.818+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T12:59:35.325+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:01:10.168+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T13:01:12.737+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:03:08.050+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T13:03:10.307+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:05:31.970+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T13:05:34.296+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:06:11.851+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T13:06:14.543+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:07:10.923+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T13:07:12.709+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:07:37.762+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:08:16.766+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T13:08:18.723+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-14T13:09:35.704+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T13:09:38.420+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T14:47:16.721+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:47:18.519+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:47:20.556+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T14:47:47.675+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:47:49.969+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T14:48:46.974+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:48:49.698+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T14:49:21.362+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:49:23.265+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T14:50:11.126+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:50:13.037+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:51:24.579+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T14:51:46.580+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T14:53:30.663+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:53:33.139+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T14:55:25.966+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:55:28.639+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:57:05.383+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T14:58:51.412+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T15:01:18.360+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T15:18:16.217+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T15:18:19.207+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-14T15:19:40.455+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T15:20:18.745+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T15:20:21.464+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T15:46:50.153+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T15:46:52.906+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-14T15:47:58.708+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T15:48:02.409+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T15:49:24.181+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-14T17:34:32.216+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-15T11:23:29.585+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaPlotMarkerService : Output Updated&#10;" timestamp="2018-11-15T11:38:53.034+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Output Updated&#10;" timestamp="2018-11-15T11:39:22.485+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : GetLocationService : removed, MapmyIndiaToolTipService : Output Updated&#10;" timestamp="2018-11-15T11:41:42.610+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-15T11:42:31.990+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaGetLocationService : removed&#10;" timestamp="2018-11-15T11:45:54.391+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Code Updated&#10;" timestamp="2018-11-15T12:32:43.130+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreatePolygonService : Code Updated&#10;" timestamp="2018-11-15T12:33:13.269+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawPlannedRouteService : Code Updated&#10;" timestamp="2018-11-15T12:33:27.616+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaDrawRouteService : Code Updated&#10;" timestamp="2018-11-15T12:33:40.844+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaNotificationService : Code Updated&#10;" timestamp="2018-11-15T12:34:07.661+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaPlotMarkerService : Code Updated&#10;" timestamp="2018-11-15T12:34:31.618+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaToolTipService : Code Updated&#10;" timestamp="2018-11-15T12:34:50.324+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-15T12:34:56.551+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-15T12:34:59.910+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : MapmyIndiaCreateCircleService : Code Updated&#10;" timestamp="2018-11-15T12:36:12.593+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-15T12:37:03.734+05:30" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-11-15T12:37:42.992+05:30" user="Administrator"/></ConfigurationChanges></Thing></Things></Entities>
